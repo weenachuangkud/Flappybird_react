@@ -68,19 +68,7 @@ Game states: MENU, PLAYING, PAUSED, GAME_OVER
 Core state: gameState, score, highScore, bird, pipes
 
 ## Assets & Resources
-
-### Current Status
-**None implemented yet**
-
-### Planned Assets
-- **Graphics**: Bird sprite, Pipe sprites, Background, Ground sprite
-- **Audio** (Future): Jump sound, Score sound, Death sound, Background music
-- **Fonts**: Pixel/retro font for score, Menu UI font
-
-### Asset Strategy
-- **Phase 1**: Colored rectangles/circles (pure CSS/Canvas)
-- **Phase 2**: Simple SVG graphics
-- **Phase 3**: Sprite sheets or PNG assets
+- Located in Assets folder
 
 ## Game Configuration Constants
 
