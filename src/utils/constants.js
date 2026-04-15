@@ -1,5 +1,5 @@
-export const GRAVITY = 0.6;
-export const JUMP_STRENGTH = -10;
+export const GRAVITY = 0.4;
+export const JUMP_STRENGTH = -8;
 export const PIPE_SPEED = 3;
 export const PIPE_GAP = 150;
 export const PIPE_SPACING = 200;

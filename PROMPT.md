@@ -70,6 +70,12 @@ Core state: gameState, score, highScore, bird, pipes
 ## Assets & Resources
 - Located in Assets folder
 
+### Unused Assets 
+- Fonts: Will use built-in fonts instead
+- Game over
+- message.png(Asset that tells player how to play): We do not need that
+- Number assets 
+
 ## Game Configuration Constants
 
 Example constants (to be refined):

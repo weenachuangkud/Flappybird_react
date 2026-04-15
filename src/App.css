@@ -1,7 +1,14 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #2c3e50;
+}
+
 .App {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
   min-height: 100vh;
   background-color: #2c3e50;
   margin: 0;
@@ -12,7 +19,6 @@
   position: relative;
   width: 400px;
   height: 600px;
-  border: 2px solid #000;
   overflow: hidden;
   user-select: none;
   background-color: #70c5ce;

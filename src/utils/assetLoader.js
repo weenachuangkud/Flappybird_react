@@ -6,9 +6,6 @@ const loadAssets = () => {
     birdUp: new Image(),
     birdDown: new Image(),
     pipeGreen: new Image(),
-    pipeGreenInverted: new Image(),
-    gameover: new Image(),
-    message: new Image(),
   };
 
   images.background.src = '/assets/sprites/background-day.png';
@@ -17,9 +14,6 @@ const loadAssets = () => {
   images.birdUp.src = '/assets/sprites/yellowbird-upflap.png';
   images.birdDown.src = '/assets/sprites/yellowbird-downflap.png';
   images.pipeGreen.src = '/assets/sprites/pipe-green.png';
-  images.pipeGreenInverted.src = '/assets/sprites/pipe-green.png'; // We'll handle flipping in draw
-  images.gameover.src = '/assets/sprites/gameover.png';
-  images.message.src = '/assets/sprites/message.png';
 
   const audio = {
     die: new Audio('/assets/audio/die.wav'),
