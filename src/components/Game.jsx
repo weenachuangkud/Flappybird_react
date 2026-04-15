@@ -44,24 +44,39 @@ const Game = () => {
     }
   }, [gameState]);
 
-  const handleGameOver = useCallback(() => {
-    if (gameState === GAME_STATES.PLAYING) {
-      setGameState(GAME_STATES.GAME_OVER);
+  const handleCollision = useCallback((type) => {
+    if (gameState !== GAME_STATES.PLAYING) return;
+
+    if (type === 'pipe') {
+      setGameState(GAME_STATES.DYING);
+      if (birdRef.current) {
+        birdRef.current.velocity = -6; // Small bump up
+      }
       if (assetsRef.current.audio.hit) {
         assetsRef.current.audio.hit.play().catch(() => {});
       }
-      setTimeout(() => {
-        if (assetsRef.current.audio.die) {
-          assetsRef.current.audio.die.play().catch(() => {});
-        }
-      }, 500);
-
-      if (score > highScore) {
-        setHighScore(score);
-        localStorage.setItem('flappyHighScore', score.toString());
-      }
+    } else {
+      finishGame();
     }
-  }, [score, highScore, gameState]);
+  }, [gameState, assetsRef]);
+
+  const finishGame = useCallback(() => {
+    setGameState(GAME_STATES.GAME_OVER);
+    
+    // Play hit if we didn't already (e.g. hitting ground directly)
+    if (gameState === GAME_STATES.PLAYING && assetsRef.current.audio.hit) {
+      assetsRef.current.audio.hit.play().catch(() => {});
+    }
+
+    if (assetsRef.current.audio.die) {
+      assetsRef.current.audio.die.play().catch(() => {});
+    }
+
+    if (score > highScore) {
+      setHighScore(score);
+      localStorage.setItem('flappyHighScore', score.toString());
+    }
+  }, [score, highScore, gameState, assetsRef]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -78,15 +93,25 @@ const Game = () => {
   }, [handleJump, gameState]);
 
   const update = useCallback(() => {
-    if (gameState !== GAME_STATES.PLAYING) return;
+    if (gameState !== GAME_STATES.PLAYING && gameState !== GAME_STATES.DYING) return;
 
     const bird = birdRef.current;
     bird.update();
 
+    const groundY = CANVAS_HEIGHT - 112;
+
     // Check world collision (ground/ceiling)
-    if (checkWorldCollision(bird, CANVAS_HEIGHT - 112)) { // 112 is ground height
-      handleGameOver();
+    if (checkWorldCollision(bird, groundY)) {
+      if (gameState === GAME_STATES.DYING) {
+        finishGame();
+      } else {
+        handleCollision('ground');
+      }
+      return;
     }
+
+    // If dying, we only update bird physics until it hits ground
+    if (gameState === GAME_STATES.DYING) return;
 
     // Update ground
     groundXRef.current = (groundXRef.current - 3) % CANVAS_WIDTH;
@@ -104,7 +129,7 @@ const Game = () => {
 
       // Check collision
       if (checkBirdPipeCollision(bird, pipe)) {
-        handleGameOver();
+        handleCollision('pipe');
       }
 
       // Update score
@@ -121,7 +146,7 @@ const Game = () => {
     pipesRef.current = pipesRef.current.filter((pipe) => pipe.x + pipe.width > 0);
     
     frameCountRef.current++;
-  }, [gameState, handleGameOver]);
+  }, [gameState, handleCollision, finishGame]);
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
@@ -160,7 +185,7 @@ const Game = () => {
 
   return (
     <div className="game-container" onClick={handleJump}>
-      {gameState === GAME_STATES.PLAYING && (
+      {(gameState === GAME_STATES.PLAYING || gameState === GAME_STATES.DYING) && (
         <div className="hud">{score}</div>
       )}
       

@@ -10,5 +10,6 @@ export const PIPE_WIDTH = 52;
 export const GAME_STATES = {
   MENU: 'MENU',
   PLAYING: 'PLAYING',
+  DYING: 'DYING',
   GAME_OVER: 'GAME_OVER',
 };
