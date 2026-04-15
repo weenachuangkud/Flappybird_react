@@ -85,7 +85,7 @@ Example constants (to be refined):
 
 ## Development Roadmap
 
-### Phase 1: Core Mechanics (Current)
+### Phase 1: Core Mechanics
 - Define architecture
 - Implement GameObject base class
 - Implement Bird with physics
@@ -93,7 +93,7 @@ Example constants (to be refined):
 - Basic collision detection
 - Simple score system
 
-### Phase 2: Game Loop & UI
+### Phase 2: Game Loop & UI (Current)
 - Main menu screen
 - Game over screen with restart
 - Score display during gameplay
