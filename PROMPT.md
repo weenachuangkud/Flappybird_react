@@ -113,7 +113,7 @@ Recommended constants for smooth gameplay:
 - Score display during gameplay
 - High score persistence (localStorage)
 
-### Phase 3: Polish (Current)
+### Phase 3: Polish
 - Add visual assets
 - Smooth animations
 - Particle effects (optional)
