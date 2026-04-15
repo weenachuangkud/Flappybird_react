@@ -1,5 +1,5 @@
-export const GRAVITY = 0.6;
-export const JUMP_STRENGTH = -10;
+export const GRAVITY = 0.4;
+export const JUMP_STRENGTH = -8;
 export const PIPE_SPEED = 3;
 export const PIPE_GAP = 150;
 export const PIPE_SPACING = 200;
@@ -10,5 +10,6 @@ export const PIPE_WIDTH = 52;
 export const GAME_STATES = {
   MENU: 'MENU',
   PLAYING: 'PLAYING',
+  DYING: 'DYING',
   GAME_OVER: 'GAME_OVER',
 };
