@@ -93,20 +93,20 @@ Example constants (to be refined):
 - Basic collision detection
 - Simple score system
 
-### Phase 2: Game Loop & UI (Current)
+### Phase 2: Game Loop & UI
 - Main menu screen
 - Game over screen with restart
 - Score display during gameplay
 - High score persistence (localStorage)
 
-### Phase 3: Polish
+### Phase 3: Polish (Current)
 - Add visual assets
 - Smooth animations
 - Particle effects (optional)
 - Sound effects
 - Mobile touch controls
 
-### Phase 4: Enhancements (Future)
+### Phase 4: Enhancements
 - Settings menu (sound toggle, difficulty)
 - Different bird skins
 - Day/night themes
