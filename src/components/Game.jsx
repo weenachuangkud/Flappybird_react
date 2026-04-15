@@ -4,11 +4,16 @@ import Pipe from '../entities/Pipe.jsx';
 import { CANVAS_WIDTH, CANVAS_HEIGHT, GAME_STATES, PIPE_SPACING, PIPE_GAP } from '../utils/constants.js';
 import useGameLoop from '../hooks/useGameLoop.js';
 import { checkBirdPipeCollision, checkWorldCollision } from '../utils/collision.js';
+import MainMenu from './MainMenu.jsx';
+import GameOver from './GameOver.jsx';
 
 const Game = () => {
   const canvasRef = useRef(null);
   const [gameState, setGameState] = useState(GAME_STATES.MENU);
   const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(
+    parseInt(localStorage.getItem('flappyHighScore')) || 0
+  );
   
   const birdRef = useRef(new Bird(50, CANVAS_HEIGHT / 2));
   const pipesRef = useRef([]);
@@ -25,18 +30,30 @@ const Game = () => {
   const handleJump = useCallback(() => {
     if (gameState === GAME_STATES.PLAYING) {
       birdRef.current.jump();
-    } else if (gameState === GAME_STATES.MENU || gameState === GAME_STATES.GAME_OVER) {
-      resetGame();
     }
   }, [gameState]);
 
+  const handleGameOver = useCallback(() => {
+    setGameState(GAME_STATES.GAME_OVER);
+    if (score > highScore) {
+      setHighScore(score);
+      localStorage.setItem('flappyHighScore', score.toString());
+    }
+  }, [score, highScore]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.code === 'Space') handleJump();
+      if (e.code === 'Space') {
+        if (gameState === GAME_STATES.PLAYING) {
+          handleJump();
+        } else if (gameState === GAME_STATES.MENU || gameState === GAME_STATES.GAME_OVER) {
+          resetGame();
+        }
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleJump]);
+  }, [handleJump, gameState]);
 
   const update = useCallback(() => {
     if (gameState !== GAME_STATES.PLAYING) return;
@@ -46,7 +63,7 @@ const Game = () => {
 
     // Check world collision (ground/ceiling)
     if (checkWorldCollision(bird, CANVAS_HEIGHT)) {
-      setGameState(GAME_STATES.GAME_OVER);
+      handleGameOver();
     }
 
     // Update and spawn pipes
@@ -62,7 +79,7 @@ const Game = () => {
 
       // Check collision
       if (checkBirdPipeCollision(bird, pipe)) {
-        setGameState(GAME_STATES.GAME_OVER);
+        handleGameOver();
       }
 
       // Update score
@@ -76,7 +93,7 @@ const Game = () => {
     pipesRef.current = pipesRef.current.filter((pipe) => pipe.x + pipe.width > 0);
     
     frameCountRef.current++;
-  }, [gameState]);
+  }, [gameState, handleGameOver]);
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
@@ -93,42 +110,36 @@ const Game = () => {
     // Draw entities
     pipesRef.current.forEach((pipe) => pipe.draw(ctx));
     birdRef.current.draw(ctx);
-
-    // Draw UI Overlay
-    ctx.fillStyle = 'white';
-    ctx.font = '24px Arial';
-    ctx.fillText(`Score: ${score}`, 10, 30);
-
-    if (gameState === GAME_STATES.MENU) {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      ctx.fillStyle = 'white';
-      ctx.textAlign = 'center';
-      ctx.fillText('Press SPACE to Start', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-    }
-
-    if (gameState === GAME_STATES.GAME_OVER) {
-      ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      ctx.fillStyle = 'white';
-      ctx.textAlign = 'center';
-      ctx.fillText('GAME OVER', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 20);
-      ctx.fillText('Press SPACE to Restart', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 20);
-    }
-  }, [gameState, score]);
+  }, []);
 
   useGameLoop(() => {
     update();
     draw();
-  }, true); // Always run loop to render even in MENU
+  }, true);
 
   return (
-    <div className="game-container" onClick={handleJump} style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
+    <div className="game-container" onClick={handleJump}>
+      {gameState === GAME_STATES.PLAYING && (
+        <div className="hud">{score}</div>
+      )}
+      
+      {gameState === GAME_STATES.MENU && (
+        <MainMenu onStart={resetGame} />
+      )}
+      
+      {gameState === GAME_STATES.GAME_OVER && (
+        <GameOver 
+          score={score} 
+          highScore={highScore} 
+          onRestart={resetGame} 
+          onMenu={() => setGameState(GAME_STATES.MENU)} 
+        />
+      )}
+
       <canvas
         ref={canvasRef}
         width={CANVAS_WIDTH}
         height={CANVAS_HEIGHT}
-        style={{ border: '2px solid #000', cursor: 'pointer' }}
       />
     </div>
   );
