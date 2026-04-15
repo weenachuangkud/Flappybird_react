@@ -18,20 +18,22 @@ class Pipe extends GameObject {
   draw(ctx) {
     if (this.images && this.images.pipeGreen.complete) {
       const pipeImg = this.images.pipeGreen;
+      const dw = this.width;
+      const sw = pipeImg.width || dw;
+      const sh = pipeImg.height || 320;
+      const dh = sh * (dw / sw);
       
       // Draw top pipe (flipped)
-      // We want the 'cap' of the pipe to be at the bottom of the top section (at this.topHeight)
+      // We translate to the gap edge and rotate to draw 'upwards'
       ctx.save();
-      ctx.translate(this.x + this.width / 2, this.topHeight);
+      ctx.translate(this.x + dw / 2, this.topHeight);
       ctx.rotate(Math.PI);
-      // Draw from the gap upwards. 
-      // We use a large height (like CANVAS_HEIGHT) to ensure it covers the screen regardless of topHeight
-      ctx.drawImage(pipeImg, -this.width / 2, 0, this.width, CANVAS_HEIGHT);
+      ctx.drawImage(pipeImg, -dw / 2, 0, dw, dh);
       ctx.restore();
 
       // Draw bottom pipe
-      // We want the 'cap' of the pipe to be at the top of the bottom section (at this.bottomY)
-      ctx.drawImage(pipeImg, this.x, this.bottomY, this.width, CANVAS_HEIGHT);
+      // Draw from the gap edge downwards
+      ctx.drawImage(pipeImg, this.x, this.bottomY, dw, dh);
     } else {
       // Placeholder
       ctx.fillStyle = 'green';
