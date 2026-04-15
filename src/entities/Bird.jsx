@@ -1,18 +1,19 @@
 import GameObject from './GameObject.jsx';
-import { GRAVITY, JUMP_STRENGTH, BIRD_SIZE } from '../utils/constants.js';
+import { GRAVITY, JUMP_STRENGTH } from '../utils/constants.js';
 
 class Bird extends GameObject {
-  constructor(x, y, images) {
-    super(x, y, 34, 24); // Original sprite size is roughly 34x24
+  constructor(x, y, images, skin = 'yellow') {
+    super(x, y, 34, 24);
     this.velocity = 0;
     this.rotation = 0;
     this.images = images;
+    this.skin = skin;
     this.flapFrame = 0;
   }
 
-  jump(audio) {
+  jump(audio, soundEnabled = true) {
     this.velocity = JUMP_STRENGTH;
-    if (audio) {
+    if (soundEnabled && audio) {
       audio.wing.currentTime = 0;
       audio.wing.play().catch(() => {});
     }
@@ -23,7 +24,6 @@ class Bird extends GameObject {
     this.y += this.velocity;
     this.flapFrame = (this.flapFrame + 0.1) % 3;
 
-    // Rotation logic
     if (this.velocity < 0) {
       this.rotation = -Math.PI / 8;
     } else {
@@ -36,15 +36,16 @@ class Bird extends GameObject {
     ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
     ctx.rotate(this.rotation);
     
-    let img = this.images.birdMid;
+    const skinImages = this.images.birds[this.skin];
+    let img = skinImages.mid;
     const frame = Math.floor(this.flapFrame);
-    if (frame === 0) img = this.images.birdUp;
-    else if (frame === 2) img = this.images.birdDown;
+    if (frame === 0) img = skinImages.up;
+    else if (frame === 2) img = skinImages.down;
 
     if (img && img.complete) {
       ctx.drawImage(img, -this.width / 2, -this.height / 2, this.width, this.height);
     } else {
-      ctx.fillStyle = 'yellow';
+      ctx.fillStyle = this.skin;
       ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
     }
     
@@ -52,7 +53,6 @@ class Bird extends GameObject {
   }
 
   getBounds() {
-    // Slightly smaller hit box for better gameplay feel
     const padding = 5;
     return {
       left: this.x + padding,

@@ -1,10 +1,13 @@
 import React from 'react';
 
-const MainMenu = ({ onStart }) => {
+const MainMenu = ({ onStart, onSettings }) => {
   return (
     <div className="game-overlay main-menu">
       <h1>Flappy Bird</h1>
-      <button onClick={onStart}>Play Game</button>
+      <div className="menu-buttons">
+        <button onClick={onStart}>Play Game</button>
+        <button onClick={onSettings}>Settings</button>
+      </div>
       <div className="instructions">
         <p>Press SPACE or Click to Jump</p>
       </div>
