@@ -32,7 +32,7 @@ Main Menu -> Play Button -> Playing State -> (on collision) -> Dying State -> (h
 
 ### State Transitions
 1. **MENU** -> User clicks "Play" -> **PLAYING**
-2. **PLAYING** -> Collision with pipe detected -> **DYING** (Bird bumps up, movement pauses)
+2. **PLAYING** -> Collision with pipe detected -> **DYING** (Bird bumps up with velocity -6, movement pauses)
 3. **PLAYING** -> Collision with ground detected -> **GAME_OVER**
 4. **DYING** -> Bird hits ground -> **GAME_OVER**
 5. **GAME_OVER** -> User clicks "Play Again" -> **PLAYING**
@@ -43,11 +43,13 @@ Main Menu -> Play Button -> Playing State -> (on collision) -> Dying State -> (h
 ### Bird Physics
 - Constant downward gravity acceleration (Gentle fall: 0.4)
 - Jump impulse on spacebar/click (Upward velocity boost: -8)
+- Death jump: Bird gets upward velocity of -6 upon hitting a pipe before falling.
 - Rotation based on vertical velocity (tilt up when rising, down when falling)
 
 ### Pipe System
 - Continuous scrolling from right to left
-- Random gap positioning (within constraints)
+- Fixed gap size (varies by difficulty level, e.g., 150 for Normal)
+- Random vertical positioning of the gap within screen constraints
 - Pipes despawn when off-screen (left edge)
 - New pipes spawn at regular intervals
 - Score increments when bird passes pipe center
