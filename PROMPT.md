@@ -2,7 +2,6 @@
 
 ## Overview
 A browser-based Flappy Bird clone built with React, demonstrating object-oriented programming principles and game development patterns.
-Frontend only.
 
 ## Architecture & Design Patterns
 
@@ -113,17 +112,18 @@ Recommended constants for smooth gameplay:
 - Score display during gameplay
 - High score persistence (localStorage)
 
-### Phase 3: Polish
+### Phase 3: Polish 
 - Add visual assets
 - Smooth animations
 - Particle effects (optional)
 - Sound effects
 - Mobile touch controls
 
-### Phase 4: Enhancements
+### Phase 4: Enhancements (Current)
 - Settings menu (sound toggle, difficulty)
 - Different bird skins
 - Day/night themes
+- Leaderboard integration
 
 ## Questions to Resolve
 - Rendering approach: HTML Canvas vs. CSS/DOM manipulation?
