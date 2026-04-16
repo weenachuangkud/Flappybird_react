@@ -121,9 +121,8 @@ Recommended constants for smooth gameplay:
 
 ### Phase 4: Enhancements (Current)
 - Settings menu (sound toggle, difficulty)
-- Different bird skins
+- Different bird/pipes skins
 - Day/night themes
-- Leaderboard integration
 
 ## Questions to Resolve
 - Rendering approach: HTML Canvas vs. CSS/DOM manipulation?
