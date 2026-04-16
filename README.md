@@ -11,7 +11,7 @@ git clone https://github.com/weenachuangkud/Flappybird_react.git
 cd Flappybird_react
 npm install
 ```
-4. Start the development server
+3. Start the development server
 ```bash
 npm run dev
 ```
