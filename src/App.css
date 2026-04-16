@@ -61,11 +61,15 @@ canvas {
   border-radius: 5px;
   margin: 5px;
   transition: background-color 0.2s;
-  text-shadow: 
-    -1px -1px 0 #000,  
-     1px -1px 0 #000,
-    -1px  1px 0 #000,
-     1px  1px 0 #000;
+  text-shadow:
+  -1px -1px 0 #000,
+   0px -1px 0 #000,
+   1px -1px 0 #000,
+  -1px  0px 0 #000,
+   1px  0px 0 #000,
+  -1px  1px 0 #000,
+   0px  1px 0 #000,
+   1px  1px 0 #000;
 }
 
 .game-overlay button:hover {
