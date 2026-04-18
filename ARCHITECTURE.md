@@ -121,10 +121,12 @@ Recommended constants for smooth gameplay:
 - Sound effects
 - Mobile touch controls
 
-### Phase 4: Enhancements (Current)
+### Phase 4: Enhancements
 - Settings menu (sound toggle, difficulty)
 - Different bird/pipes skins
 - Day/night themes
+
+(END)
 
 ## Questions to Resolve
 - Rendering approach: HTML Canvas vs. CSS/DOM manipulation?
