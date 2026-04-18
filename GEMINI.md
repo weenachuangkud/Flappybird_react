@@ -1,1 +1,1 @@
-@PROMPT.md
+@ARCHITECTURE.md
