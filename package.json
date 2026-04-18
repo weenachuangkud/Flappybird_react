@@ -19,6 +19,8 @@
     "vite": "^4.4.5"
   },
   "scripts": {
-    "tests": "exit 0"
+    "dev": "vite",
+    "build": "vite build",
+    "test": "echo 'No tests yet' && exit 0"
   }
 }
