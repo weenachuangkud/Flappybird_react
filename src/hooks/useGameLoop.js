@@ -3,23 +3,35 @@ import { useEffect, useRef } from 'react';
 const useGameLoop = (callback, isActive) => {
   const requestRef = useRef();
   const previousTimeRef = useRef();
-
-  const animate = (time) => {
-    if (previousTimeRef.current !== undefined) {
-      callback(time);
-    }
-    previousTimeRef.current = time;
-    requestRef.current = requestAnimationFrame(animate);
-  };
+  const callbackRef = useRef(callback);
 
   useEffect(() => {
-    if (isActive) {
-      requestRef.current = requestAnimationFrame(animate);
-    } else {
-      cancelAnimationFrame(requestRef.current);
+    callbackRef.current = callback;
+  }, [callback]);
+
+  useEffect(() => {
+    if (!isActive) {
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current);
+      }
+      return;
     }
-    return () => cancelAnimationFrame(requestRef.current);
-  }, [isActive, callback]);
+
+    const animate = (time) => {
+      if (previousTimeRef.current !== undefined) {
+        callbackRef.current(time);
+      }
+      previousTimeRef.current = time;
+      requestRef.current = requestAnimationFrame(animate);
+    };
+
+    requestRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current);
+      }
+    };
+  }, [isActive]);
 };
 
 export default useGameLoop;
