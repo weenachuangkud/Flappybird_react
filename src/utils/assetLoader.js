@@ -4,24 +4,29 @@ const loadAssets = () => {
       day: new Image(),
       night: new Image(),
     },
+    
     ground: new Image(),
+    
     birds: {
       yellow: {
         up: new Image(),
         mid: new Image(),
         down: new Image(),
       },
+      
       blue: {
         up: new Image(),
         mid: new Image(),
         down: new Image(),
       },
+      
       red: {
         up: new Image(),
         mid: new Image(),
         down: new Image(),
       },
     },
+    
     pipes: {
       green: new Image(),
       red: new Image(),
