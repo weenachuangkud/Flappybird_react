@@ -112,7 +112,7 @@ const Game = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleJump, gameState]);
+  }, [handleJump, gameState, resetGame]);
 
   const update = useCallback(() => {
     if (gameState !== GAME_STATES.PLAYING && gameState !== GAME_STATES.DYING) return;
