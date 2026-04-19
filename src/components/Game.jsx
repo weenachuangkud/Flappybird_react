@@ -98,7 +98,7 @@ const Game = () => {
       setHighScore(score);
       localStorage.setItem('flappyHighScore', score.toString());
     }
-  }, [score, highScore, gameState, assetsRef, settings.sound]);
+  }, [score, highScore, gameState, settings.sound]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
