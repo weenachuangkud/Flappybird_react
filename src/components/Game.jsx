@@ -68,22 +68,6 @@ const Game = () => {
     }
   }, [gameState, settings.sound]);
 
-  const handleCollision = useCallback((type) => {
-    if (gameState !== GAME_STATES.PLAYING) return;
-
-    if (type === 'pipe') {
-      setGameState(GAME_STATES.DYING);
-      if (birdRef.current) {
-        birdRef.current.velocity = -6;
-      }
-      if (settings.sound && assetsRef.current.audio.hit) {
-        assetsRef.current.audio.hit.play().catch(() => {});
-      }
-    } else {
-      finishGame();
-    }
-  }, [gameState, assetsRef, settings.sound, finishGame]);
-
   const finishGame = useCallback(() => {
     setGameState(GAME_STATES.GAME_OVER);
     
@@ -102,6 +86,22 @@ const Game = () => {
       localStorage.setItem('flappyHighScore', score.toString());
     }
   }, [score, highScore, gameState, settings.sound]);
+
+  const handleCollision = useCallback((type) => {
+    if (gameState !== GAME_STATES.PLAYING) return;
+
+    if (type === 'pipe') {
+      setGameState(GAME_STATES.DYING);
+      if (birdRef.current) {
+        birdRef.current.velocity = -6;
+      }
+      if (settings.sound && assetsRef.current.audio.hit) {
+        assetsRef.current.audio.hit.play().catch(() => {});
+      }
+    } else {
+      finishGame();
+    }
+  }, [gameState, assetsRef, settings.sound, finishGame]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
