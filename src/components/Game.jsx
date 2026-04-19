@@ -81,7 +81,7 @@ const Game = () => {
     } else {
       finishGame();
     }
-  }, [gameState, assetsRef, settings.sound]);
+  }, [gameState, assetsRef, settings.sound, finishGame]);
 
   const finishGame = useCallback(() => {
     setGameState(GAME_STATES.GAME_OVER);
