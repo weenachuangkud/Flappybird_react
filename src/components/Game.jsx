@@ -50,7 +50,8 @@ const Game = () => {
     }
   }, [settings.birdSkin]);
 
-  const resetGame = () => {
+  const resetGame = useCallback(() => {
+    if (!assetsRef.current) return;
     birdRef.current = new Bird(50, CANVAS_HEIGHT / 2, assetsRef.current.images, settings.birdSkin);
     pipesRef.current = [];
     frameCountRef.current = 0;
@@ -59,10 +60,10 @@ const Game = () => {
     if (settings.sound && assetsRef.current.audio.swoosh) {
       assetsRef.current.audio.swoosh.play().catch(() => {});
     }
-  };
+  }, [settings.birdSkin, settings.sound]);
 
   const handleJump = useCallback(() => {
-    if (gameState === GAME_STATES.PLAYING) {
+    if (gameState === GAME_STATES.PLAYING && birdRef.current && assetsRef.current) {
       birdRef.current.jump(assetsRef.current.audio, settings.sound);
     }
   }, [gameState, settings.sound]);
@@ -86,6 +87,8 @@ const Game = () => {
   const finishGame = useCallback(() => {
     setGameState(GAME_STATES.GAME_OVER);
     
+    if (!assetsRef.current) return;
+
     if (gameState === GAME_STATES.PLAYING && settings.sound && assetsRef.current.audio.hit) {
       assetsRef.current.audio.hit.play().catch(() => {});
     }
@@ -116,6 +119,7 @@ const Game = () => {
 
   const update = useCallback(() => {
     if (gameState !== GAME_STATES.PLAYING && gameState !== GAME_STATES.DYING) return;
+    if (!birdRef.current || !assetsRef.current) return;
 
     const bird = birdRef.current;
     bird.update();

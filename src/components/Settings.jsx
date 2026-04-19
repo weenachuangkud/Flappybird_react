@@ -1,5 +1,5 @@
 import React from 'react';
-import { BIRD_SKINS, PIPE_COLORS, THEMES, DIFFICULTY_LEVELS } from '../utils/constants';
+import { BIRD_SKINS, PIPE_COLORS, THEMES, DIFFICULTY_LEVELS } from '../utils/constants.js';
 
 const Settings = ({ settings, onUpdate, onBack }) => {
   const handleChange = (key, value) => {
