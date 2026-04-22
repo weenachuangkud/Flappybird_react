@@ -28,3 +28,5 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
+    # NOTE: I don't have any test yet, so I'll comment the test outputs:
+    - run: npm test 
